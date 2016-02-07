@@ -19,8 +19,8 @@ import com.google.common.net.InetAddresses;
 public class IpAddressResolution {
 	
 	
-	public void formatIpAddress(String host) {
-		boolean isIpAddress = InetAddresses.isInetAddress(host);
+	public void formatIpAddress(String input) {
+		boolean isIpAddress = InetAddresses.isInetAddress(input);
 		if (isIpAddress) {
 			System.out.println("IP address detected ");
 		} else {
@@ -28,7 +28,7 @@ public class IpAddressResolution {
 		}
 		
 		try {
-			InetAddress ipAddress = InetAddress.getByName(host);
+			InetAddress ipAddress = InetAddress.getByName(input);
 			System.out.println("Able to parse the ip address");
 			System.out.println(ipAddress.getHostAddress());
 			
@@ -42,24 +42,18 @@ public class IpAddressResolution {
 			
 			
 			System.out.println("Using bouncy castle library");
-			boolean isValidIpv6 = IPAddress.isValidIPv6(host);
+			boolean isValidIpv6 = IPAddress.isValidIPv6(input);
 			if (isValidIpv6) {
-				System.out.println("\nvalid ipv6 : able to parse scope id also");
+				System.out.println("\nvalid ipv6");
 			} else {
 				System.out.println("\nNot a valid ipv6 address");
 			}
 			
-			if (host.matches(".*:.*")) {
-				System.out.println("MATCHES : ipv6 address based on regex");
-			} else {
-				System.out.println("NOT MATCHES: either ipv4 address or a hostname");
-			}
 			/*
 			 * this throws exception : doesn't work for ipv6 with scopeid
 			 * 
-			 * - InetAddresses.forString(host);
-			 * Inet6Address.getByAddress(host.getBytes());
-			 * InetAddresses.forString(host);
+			 * - InetAddresses.forString(input);
+			 * InetAddresses.forString(input);
 			 */
 			
 		} catch (Exception e) {
@@ -72,12 +66,12 @@ public class IpAddressResolution {
 	 */
 	public static void main(String[] args) {
 		IpAddressResolution ip = new IpAddressResolution();
-		ip.formatIpAddress("10.72.72.181");
+		ip.formatIpAddress("11.22.72.181");
 		
 		System.out.println("------------TRYING IPv6 adress with scope  --------------------");
 		ip.formatIpAddress("fe80:0:0:0:768f:9950:4907:1134%12");
 
-		System.out.println("------------TRYING IPv6 adress --------------------");
+		System.out.println("------------TRYING normal IPv6 adress --------------------");
 		ip.formatIpAddress("fe80:0:0:0:8765:1234:9874:2343");
 
 		System.out.println("------------TRYING random address --------------------");
